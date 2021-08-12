@@ -6,7 +6,7 @@ const app = express();
 app.use(morgan("common"));
 app.use(express.static("public"));
 
-let topMovies = [
+let movies = [
   {
     title: "Flags of our Fathers",
     director: "Clint Eastwood",
@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/movies", (req, res) => {
-  res.json(topMovies);
+  res.json(movies);
 });
 
 app.use((err, req, res, next) => {
