@@ -1,21 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DOCUMENTATION</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>documentation</title>
   </head>
+
   <body>
-    <h1>Documentation Page</h1>
-    <p>
-      A REST API for an application called “myFlix” that interacts with a
-      database that stores data about different movies.
-    </p>
-    <p>
-      A server-side component of a “movies” web application. The web application
-      will provide users with access to information about different
-      movies,directors, and genres. Users will be able to sign up, update
-      theirpersonal information, and create a list of their favorite movies.
-    </p>
+    <h1>Documentation</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Business Logic</th>
+          <th>URL</th>
+          <th>HTTP Method</th>
+          <th>Request body data format</th>
+          <th>Response body data format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get a list of movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding data about all the movies</td>
+        </tr>
+        <tr>
+          <td>Get data about a single movie by name</td>
+          <td>/movies/[Name]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about a single movie,<br />
+            Example:<br />
+            {<br />
+            id: 1,<br />
+            title: "The Godfather",<br />
+            year: 1972<br />
+            }
+          </td>
+        </tr>
+        <tr>
+          <td>Add a movie</td>
+          <td>/movies</td>
+          <td>POST</td>
+          <td>
+            A JSON object holding data about the movie to add,<br />
+            Example:<br />
+            {<br />
+            title: "Inception",<br />
+            year: 2010<br />
+            }
+          </td>
+          <td>
+            A JSON object holding data about the movie that was added, incuding
+            an ID:<br />
+            {<br />
+            id: 5,<br />
+            title: "Inception",<br />
+            year: 2010<br />
+            }
+          </td>
+        </tr>
+        <tr>
+          <td>Remove a movie by ID</td>
+          <td>/movies/[ID]</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>
+            A ext message indicating whether the movie was successfully removed
+          </td>
+        </tr>
+        <tr>
+          <td>Update the year of a certain movie</td>
+          <td>/movies/[Title]/[year]</td>
+          <td>PUT</td>
+          <td>None</td>
+          <td>
+            A text message indicating wheter the year of the certain movie was
+            updated
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>

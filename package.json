@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/zlaxton/movie_api#readme",
   "dependencies": {
+    "body": "^5.1.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "parser": "^0.1.4",
+    "uuid": "^8.3.2"
   }
 }
