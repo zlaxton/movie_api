@@ -71,9 +71,8 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
-// Returning a welcoming message
 app.get("/", (req, res) => {
-  res.status(200).sendFile(`${__dirname}/public/index.html`);
+  res.send("Welcome to my movies app");
 });
 
 // Get data about a certain movie
@@ -87,6 +86,7 @@ app.get("/movies/:title", (req, res) => {
 app.get("/documentation", (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
+
 // Add a movie
 app.post("/movies", (req, res) => {
   let newMovie = req.body;
