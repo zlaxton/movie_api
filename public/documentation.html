@@ -24,15 +24,17 @@
           <td>/movies</td>
           <td>GET</td>
           <td>None</td>
-          <td>A JSON object holding data about all the movies</td>
+          <td>A JSON object holding data about all movies</td>
         </tr>
         <tr>
-          <td>Get data about a single movie by name</td>
+          <td>Get data about a single movie by Title</td>
           <td>/movies/[Name]</td>
           <td>GET</td>
           <td>None</td>
           <td>
-            A JSON object holding data about a single movie,<br />
+            A JSON object holding data about a single movie, containing a
+              description, genre, director, image URL, whether it’s featured or
+              not.<br />
             Example:<br />
             {<br />
             id: 1,<br />
@@ -69,7 +71,7 @@
           <td>DELETE</td>
           <td>None</td>
           <td>
-            A ext message indicating whether the movie was successfully removed
+            A exit message indicating whether the movie was successfully removed
           </td>
         </tr>
         <tr>
