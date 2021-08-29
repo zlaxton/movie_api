@@ -20,69 +20,143 @@
       </thead>
       <tbody>
         <tr>
-          <td>Get a list of movies</td>
+          <td>All Movies</td>
           <td>/movies</td>
           <td>GET</td>
+          <td>/movies</td>
           <td>None</td>
           <td>A JSON object holding data about all movies</td>
         </tr>
         <tr>
-          <td>Get data about a single movie by Title</td>
-          <td>/movies/[Name]</td>
+          <td>Details of single movies (Selected by Title)</td>
+          <td>/movies/[title]</td>
           <td>GET</td>
+          <td>movies/:title</td>
           <td>None</td>
           <td>
             A JSON object holding data about a single movie, containing a
-              description, genre, director, image URL, whether it’s featured or
-              not.<br />
-            Example:<br />
-            {<br />
-            id: 1,<br />
-            title: "Silence of the Lambs",<br />
-            year: 2010<br />
+            description, genre, director, image URL, whether it’s featured or
+            not. <br />
+            Example: <br />
+            { "id":1 <br />
+            "title":" The Shawshank Redemption", <br />
+            " year": 1994, <br />
+            "director": "Frank Darabont", <br />
+            "duration": "2h 22min", <br />
+            "genre:" ["Crime", "Drama"], }
+          </td>
+        </tr>
+        <tr>
+          <td>Return data about a genre (description) by title</td>
+          <td>/genres/[name]</td>
+          <td>GET</td>
+          <td>genres/:name</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about a genre. <br />
+            Example: <br />
+            { <br />
+            "genre:"Crime" <br />
+            "Description:"film genre inspired by and analogous to the crime
+            fiction literary genre ..." <br />
             }
           </td>
         </tr>
         <tr>
-          <td>Add a movie</td>
-          <td>/movies</td>
+          <td>Return data about a director</td>
+          <td>/directors/[name]</td>
+          <td>GET</td>
+          <td>directors/:name</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about a director <br />
+            Example: <br />
+            { <br />
+            "name": "Frank Darabont", <br />
+            "Bio": "is a French-American film director, screenwriter and
+            producer ...", <br />
+            "DOB": "January 28, 1959", <br />
+            "DOD": " - ", <br />
+            }
+          </td>
+        </tr>
+        <tr>
+          <td>Allow new Users to register</td>
+          <td>/users</td>
           <td>POST</td>
+          <td>/users</td>
           <td>
-            A JSON object holding data about the movie to add,<br />
-            Example:<br />
-            {<br />
-            title: "Silence of the Lambs",<br />
-            year: 2010<br />
+            A JSON object holding data about new User to be registered.
+            <br />
+            For Example <br />
+            { <br />
+            "Username": "joe boo", <br />
+            "Password": "word", <br />
+            "Email": "joe@gmail.com", "Birthday": "1985-01-01T00:00:00.000Z",
+            <br />
+            "FavoriteMovies": [], "_id": "612bf01047438e864245d854", <br />
             }
           </td>
           <td>
-            A JSON object holding data about the movie that was added, incuding
-            an ID:<br />
-            {<br />
-            id: 5,<br />
-            title: "Silence of the Lambs",<br />
-            year: 2010<br />
+            A JSON object holding data about registered new User with ID.
+            <br />
+            For Example <br />
+            { <br />
+            "Username": "joe boo", <br />
+            "Password": "word", <br />
+            "Email": "joe@gmail.com", "Birthday": "1985-01-01T00:00:00.000Z",
+            <br />
+            "FavoriteMovies": [], "_id": "612bf01047438e864245d854", <br />
             }
           </td>
         </tr>
         <tr>
-          <td>Remove a movie by ID</td>
-          <td>/movies/[ID]</td>
-          <td>DELETE</td>
-          <td>None</td>
-          <td>
-            A exit message indicating whether the movie was successfully removed
-          </td>
-        </tr>
-        <tr>
-          <td>Update the year of a certain movie</td>
-          <td>/movies/[Title]/[year]</td>
+          <td>Allow Users to update info</td>
+          <td>/users/[username]</td>
           <td>PUT</td>
+          <td>/users/:username</td>
           <td>None</td>
           <td>
-            A text message indicating wheter the year of the certain movie was
-            updated
+            A JSON object holding data about User's updated info with ID.
+            <br />
+            For Example <br />
+            { <br />
+            "Username": "joe boo", <br />
+            "Password": "word", <br />
+            "Email": "joe@gmail.com", "Birthday": "1985-01-01T00:00:00.000Z",
+            <br />
+            "FavoriteMovies": [], "_id": "612bf01047438e864245d854", <br />
+            }
           </td>
+        </tr>
+        <tr>
+          <td>Allow users to add movie to favorite list</td>
+          <td>/users/[username]/favorites/[movieID]</td>
+          <td>POST</td>
+          <td>/users/:username/:favorites/:movieID</td>
+          <td>None</td>
+          <td>
+            A text message indicating that movie has been added to favorite list
+          </td>
+        </tr>
+        <tr>
+          <td>Allow users to remove movie from favorite list</td>
+          <td>/users/[username]/removefavorites/[movieID]</td>
+          <td>DELETE</td>
+          <td>/users/:username/:removefavorites/:movieID</td>
+          <td>None</td>
+          <td>
+            A text message indicating that movie has been removed from favorite
+            list
+          </td>
+        </tr>
+        <tr>
+          <td>Allow existing users to deregister</td>
+          <td>/users/[username]</td>
+          <td>DELETE</td>
+          <td>/users/:username</td>
+          <td>None</td>
+          <td>Message indicating that a user email has been removeds</td>
         </tr>
       </tbody>
     </table>
