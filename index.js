@@ -47,10 +47,10 @@ app.get("/movies/:Title", (req, res) => {
     });
 });
 //Route to Data about Genre
-app.get("/genres/:Name", (req, res) => {
-  Genres.findOne({ Name: erq.params.Name })
-    .then((genre) => {
-      res.jso(genre.Description);
+app.get("/genres", (req, res) => {
+  Genres.find()
+    .then((genres) => {
+      res.jso(genres);
     })
     .catch((err) => {
       console.error(err);
@@ -83,8 +83,8 @@ app.get("/users", (req, res) => {
 });
 
 // Get a user by username
-app.get("/user/:UserID", (req, res) => {
-  Users.findOne({ UserID: req.params.Username })
+app.get("/user/:Username", (req, res) => {
+  Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
     })
