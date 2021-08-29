@@ -35,17 +35,6 @@ app.get("/movies", (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
-//Route to Data about Genre
-app.get("/genres/:Name", (req, res) => {
-  Genres.findOne({ Name: erq.params.Name })
-    .then((genre) => {
-      res.jso(genre.Description);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
 // Get data for certain movie
 app.get("/movies/:Title", (req, res) => {
   Movies.findOne({ Title: req.params.Title })
@@ -57,6 +46,18 @@ app.get("/movies/:Title", (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
+//Route to Data about Genre
+app.get("/genres/:Name", (req, res) => {
+  Genres.findOne({ Name: erq.params.Name })
+    .then((genre) => {
+      res.jso(genre.Description);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
 // get info on specific director
 app.get("/director/:Name", (req, res) => {
   Directors.findOne({ Name: req.params.Name })
@@ -138,6 +139,24 @@ app.post("/users", (req, res) => {
     });
 });
 
+// Add a movie to a user's list of favorites
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
 // update a user's username
 app.put("/users/:Username", (req, res) => {
   Users.findOneAndUpdate(
@@ -164,51 +183,6 @@ app.put("/users/:Username", (req, res) => {
       }
     }
   );
-});
-// Add a movie to a user's list of favorites
-app.post("/users/:Username/movies/:MovieID", (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $push: { FavoriteMovies: req.params.MovieID },
-    },
-    { new: true }, // This line makes sure that the updated document is returned
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      } else {
-        res.json(updatedUser);
-      }
-    }
-  );
-});
-// Creating a new user
-app.post("/users", (req, res) => {
-  Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + "already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then((user) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
 });
 
 // Delete a user by username
