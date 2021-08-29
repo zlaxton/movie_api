@@ -20,11 +20,11 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
+// get requests
 app.get("/", (req, res) => {
   res.send("Welcome to myFlixDB!");
 });
-// Gets the list of data about ALL movies
+// Gets the list of ALL movies
 app.get("/movies", (req, res) => {
   Movies.find()
     .then((movies) => {
@@ -50,7 +50,7 @@ app.get("/movies/:Title", (req, res) => {
 app.get("/genres", (req, res) => {
   Genres.find()
     .then((genres) => {
-      res.jso(genres);
+      res.status(201).json(genres);
     })
     .catch((err) => {
       console.error(err);
@@ -58,11 +58,11 @@ app.get("/genres", (req, res) => {
     });
 });
 
-// get info on specific director
-app.get("/director/:Name", (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
-    .then((director) => {
-      res.json(director);
+// get all directors
+app.get("/directors", (req, res) => {
+  Directors.find()
+    .then((directors) => {
+      res.json(directors);
     })
     .catch((err) => {
       console.error(err);
