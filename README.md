@@ -44,3 +44,9 @@ reading data from requests and morgan for logging.
 -passport-jwt
 -passport-local
 -uuid
+# Built with
+-Javascript
+-Node.js
+-Express
+-MongoDB
+-Mongoose
