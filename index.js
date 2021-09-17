@@ -13,13 +13,6 @@ const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
 
-//Set allowed Origins for requests
-let allowedOrigins = [
-  "https://agile-crag-85270.herokuapp.com/",
-  "http://localhost:1234",
-  "http://localhost:8080",
-];
-
 //Middleware
 app.use(cors());
 app.use(bodyParser.json());
