@@ -16,6 +16,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "https://movie_api.herokuapp.com/",
 ];
+//Middleware
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -30,8 +31,6 @@ app.use(
     },
   })
 );
-//Middleware
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
