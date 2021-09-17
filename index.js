@@ -13,8 +13,28 @@ const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
 
+//Set allowed Origins for requests
+let allowedOrigins = [
+  "https://agile-crag-85270.herokuapp.com/",
+  "http://localhost:1234",
+  "http://localhost:8080",
+];
+
 //Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        let message =
+          "The CORS policy for this application does not allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -34,20 +54,16 @@ app.get("/", (req, res) => {
   res.send("Welcome to myFlixDB!");
 });
 // Gets the list of data about ALL movies
-app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.find()
-      .then((movies) => {
-        res.status(201).json(movies);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies", function (req, res) {
+  Movies.find()
+    .then(function (movies) {
+      res.status(201).json(movies);
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
 //Route to Data about Genre
 app.get(
   "/genres/:Name",
