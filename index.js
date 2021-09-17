@@ -12,16 +12,17 @@ const app = express();
 const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
-let allowedOrigins = ["http://localhost:1234"];
-//Middleware
+let allowedOrigins = [
+  "http://localhost:1234",
+  "https://movie_api.herokuapp.com/",
+];
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
         let message =
-          "The CORS policy for this application doesn’t allow access from origin " +
+          "The CORS policy for this application does not allow access from origin " +
           origin;
         return callback(new Error(message), false);
       }
@@ -29,6 +30,8 @@ app.use(
     },
   })
 );
+//Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
