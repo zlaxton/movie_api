@@ -15,6 +15,7 @@ const { check, validationResult } = require("express-validator");
 let allowedOrigins = [
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
+  "https://agile-crag-85270.herokuapp.com/",
 ];
 //Middleware
 app.use(
