@@ -15,7 +15,6 @@ const { check, validationResult } = require("express-validator");
 let allowedOrigins = [
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
-  "https://agile-crag-85270.herokuapp.com/",
 ];
 //Middleware
 app.use(
@@ -51,16 +50,20 @@ app.get("/", (req, res) => {
   res.send("Welcome to myFlixDB!");
 });
 // Gets the list of data about ALL movies
-app.get("/movies", function (req, res) {
-  Movies.find()
-    .then(function (movies) {
-      res.status(201).json(movies);
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  function (req, res) {
+    Movies.find()
+      .then(function (movies) {
+        res.status(201).json(movies);
+      })
+      .catch(function (error) {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 //Route to Data about Genre
 app.get(
   "/genres/:Name",
