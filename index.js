@@ -1,8 +1,8 @@
+const mongoose = require("mongoose");
 const express = require("express"),
   morgan = require("morgan");
 (bodyParser = require("body-parser")), (uuid = require("uuid"));
 
-const mongoose = require("mongoose");
 const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -12,6 +12,7 @@ const app = express();
 const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
+
 let allowedOrigins = [
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
@@ -37,7 +38,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("common"));
 app.use("/documentation", express.static("public"));
 
-let auth = require("./auth")(app);
+let auth = require("./auth.js")(app);
+
 const passport = require("passport");
 require("./passport");
 
