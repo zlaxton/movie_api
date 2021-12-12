@@ -14,6 +14,7 @@ const cors = require("cors");
 const { check, validationResult } = require("express-validator");
 
 let allowedOrigins = [
+  "http://localhost:4200",
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
 ];
