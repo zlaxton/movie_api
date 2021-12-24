@@ -184,7 +184,7 @@ app.post(
  * @param {string} endpoint - endpoint to add user. "url/users"
  * @param {string} Username - choosen by user
  * @param {string} Password - user's password
- * @param {string} Email - user's e-mail adress
+ * @param {string} Email - user's e-mail address
  * @param {string} Birthday - user's birthday
  * @returns {object} - new user
  */
@@ -199,7 +199,7 @@ app.post(
       "Username contains non alphanumerical characters!"
     ).isAlphanumeric(),
     check("Password", "Password is required!").not().isEmpty(),
-    check("Email", "Email adress is not valid!").isEmail(),
+    check("Email", "Email address is not valid!").isEmail(),
   ],
   (req, res) => {
     // check the validation object for errors
