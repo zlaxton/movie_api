@@ -13,11 +13,15 @@ const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
 
-let allowedOrigins = [
+let allowCrossDomain = [
   "http://localhost:4200",
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
+  "http://localhost:8080",
+  "https://zlaxton.gihub.io.myFlix-Angular-client",
+  "https://zlaxton.github.io",
 ];
+
 //Middleware
 app.use(cors());
 app.options("*", cors());
@@ -262,11 +266,37 @@ app.post(
     );
   }
 );
-// update a user's username
+/**
+ * Update user by username
+ * @method PUT
+ * @param {string} endpoint - endpoint to add user. "url/users/:Usename"
+ * @param {string} Username - required
+ * @param {string} Password - user's new password
+ * @param {string} Email - user's new e-mail adress
+ * @param {string} Birthday - user's new birthday
+ * @returns {string} - returns success/error message
+ */
 app.put(
   "/users/:Username",
+  [
+    check("Username", "Username is required!").isLength({
+      min: 5,
+    }),
+    check(
+      "Username",
+      "Username contains non alphanumerical characters!"
+    ).isAlphanumeric(),
+    check("Password", "Password is required!").not().isEmpty(),
+    check("Email", "Email adress is not valid!").isEmail(),
+  ],
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        errors: errors.array(),
+      });
+    }
     Users.findOneAndUpdate(
       {
         Username: req.params.Username,
@@ -281,7 +311,7 @@ app.put(
       },
       {
         new: true,
-      },
+      }, //this line makes sure that updated document is returned
       (err, updatedUser) => {
         if (err) {
           console.error(err);
@@ -294,17 +324,25 @@ app.put(
   }
 );
 
-// Delete a user by username
+/**
+ * Delete user by username
+ * @method DELETE
+ * @param {string} endpoint - endpoint - delete user by username
+ * @param {string} Username - is used to delete specific user "url/users/:Username"
+ * @returns {string} success/error message
+ */
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username })
+    Users.findOneAndDelete({
+      Username: req.params.Username,
+    })
       .then((user) => {
         if (!user) {
-          res.status(400).send(req.params.Username + " was not found");
+          res.status(400).send(req.params.Username + " was not found!");
         } else {
-          res.status(200).send(req.params.Username + " was deleted.");
+          res.status(200).send(req.params.Username + " was removed!");
         }
       })
       .catch((err) => {
