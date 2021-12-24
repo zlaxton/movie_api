@@ -20,13 +20,13 @@ let allowedOrigins = [
 ];
 //Middleware
 app.use(cors());
-app.options('*',cors());
-var allowCrossDomain = function(req,res,next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();  
-}
+app.options("*", cors());
+var allowCrossDomain = function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+};
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -144,47 +144,79 @@ app.get("/documentation", (req, res) => {
   res.status(200).sendFile(`${__dirname}/public/documentation.html`);
 });
 
-// add a movie
+/**
+ * Add movie to favorites
+ * @method POST
+ * @param {string} endpoint - endpoint to add movies to favorites
+ * @param {string} Title, Username - both are required
+ * @returns {string} - returns success/error message
+ */
 app.post(
-  "/movies",
+  "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    let newMovie = req.body;
-
-    if (!newMovie.title) {
-      const message = "Missing title in request body";
-      res.status(400).send(message);
-    } else {
-      newMovie.id = uuid.v4();
-      movies.push(newMovie);
-      res.status(201).send(newMovie);
-    }
+    Users.findOneAndUpdate(
+      {
+        Username: req.params.Username,
+      },
+      {
+        $push: {
+          FavoriteMovies: req.params.MovieID,
+        },
+      },
+      {
+        new: true,
+      }, //this line makes sure that updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
   }
 );
-// allow users to register
+/**
+ * Add user
+ * @method POST
+ * @param {string} endpoint - endpoint to add user. "url/users"
+ * @param {string} Username - choosen by user
+ * @param {string} Password - user's password
+ * @param {string} Email - user's e-mail adress
+ * @param {string} Birthday - user's birthday
+ * @returns {object} - new user
+ */
 app.post(
   "/users",
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("Username", "Username is required!").isLength({
+      min: 5,
+    }),
     check(
       "Username",
-      "Username contains non alphanumeric characters - not allowed."
+      "Username contains non alphanumerical characters!"
     ).isAlphanumeric(),
-    check("Password", "Password is required").not().isEmpty(),
-    check("Email", "Email does not appear to be valid").isEmail(),
+    check("Password", "Password is required!").not().isEmpty(),
+    check("Email", "Email adress is not valid!").isEmail(),
   ],
   (req, res) => {
+    // check the validation object for errors
     let errors = validationResult(req);
-
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+      return res.status(422).json({
+        errors: errors.array(),
+      });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
-
-    Users.findOne({ Username: req.body.Username })
+    Users.findOne({
+      Username: req.body.Username, //search user by username
+    })
       .then((user) => {
         if (user) {
-          return res.status(400).send(req.body.Username + "already exists");
+          //if user is found, send a response that is already exists
+          return res.status(400).send(req.body.Username + " already exists!");
         } else {
           Users.create({
             Username: req.body.Username,
@@ -207,6 +239,7 @@ app.post(
       });
   }
 );
+
 // Add a movie to a user's list of favorites
 app.post(
   "/users/:Username/movies/:MovieID",
