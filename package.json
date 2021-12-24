@@ -20,6 +20,7 @@
   "homepage": "https://github.com/zlaxton/movie_api#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "better-docs": "^2.3.2",
     "body": "^5.1.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -34,5 +35,8 @@
     "passport-local": "^1.0.0",
     "save": "^2.4.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.7"
   }
 }
