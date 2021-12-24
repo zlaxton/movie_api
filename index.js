@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan("common"));
-app.use("./documentation", express.static("public"));
+app.use("/documentation", express.static("public"));
 
 let auth = require("./auth.js")(app);
 
