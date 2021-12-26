@@ -13,7 +13,7 @@ const cors = require("cors");
 
 const { check, validationResult } = require("express-validator");
 
-let allowCrossDomain = [
+let allowedOrigins = [
   "http://localhost:4200",
   "http://localhost:1234",
   "https://rocky-bayou-72593.herokuapp.com/",
@@ -21,6 +21,21 @@ let allowCrossDomain = [
   "https://zlaxton.gihub.io.myFlix-Angular-client",
   "https://zlaxton.github.io",
 ];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        //If a specific origin isn’t found on the list
+        let message =
+          "The CORS policy for this application doesn`t allow accsess from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 //Middleware
 app.use(cors());
@@ -269,10 +284,10 @@ app.post(
 /**
  * Update user by username
  * @method PUT
- * @param {string} endpoint - endpoint to add user. "url/users/:Usename"
+ * @param {string} endpoint - endpoint to add user. "url/users/:Username"
  * @param {string} Username - required
  * @param {string} Password - user's new password
- * @param {string} Email - user's new e-mail adress
+ * @param {string} Email - user's new e-mail address
  * @param {string} Birthday - user's new birthday
  * @returns {string} - returns success/error message
  */
