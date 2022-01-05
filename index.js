@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(morgan("common"));
-app.use("/documentation", static("public"));
+//app.use("/documentation", static("public"));
 
 const auth = require("./auth.js")(app);
 
