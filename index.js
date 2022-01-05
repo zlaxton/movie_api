@@ -1,19 +1,14 @@
-import mongoose from "mongoose";
-import express, { static } from "express";
-import morgan from "morgan";
-(bodyParser = require("body-parser")), (uuid = require("uuid"));
-
 /**
  * @fileOverview In this file the endpoints for the API are defined.
- * @see <a href="https://move-x.herokuapp.com/documentation.html">Table of all endpoints and data formats</a>
+ * @see <a href="https://movie_api.herokuapp.com/documentation.html">Table of all endpoints and data formats</a>
  */
 
 const express = require("express"),
   morgan = require("morgan"), // module for logging
   bodyParser = require("body-parser"), // module to parse the body of an API request (eg: "let newUser = req.body;")
-  mongoose = require("mongoose"), // business layer logic to link Node and the MongoDB
-  Models = require("./models.js"); // Mongoose models representing the MoveX_DB (MongoDB) collections
-
+  const mongoose = require("mongoose"), // business layer logic to link Node and the MongoDB
+  Models = require("./models.js"); // Mongoose models representing the movie_api_DB (MongoDB) collections
+  uuid = require("uuid");
 const app = express(); // encapsulate Express’s functionality to configure the web server
 
 const Movies = Models.Movie;
@@ -21,10 +16,6 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 const app = express();
-import cors from "cors";
-
-import { check, validationResult } from "express-validator";
-
 const cors = require("cors");
 
 let allowedOrigins = [
@@ -67,10 +58,8 @@ app.use(express.static("public"));
 app.use(morgan("common"));
 app.use("/documentation", static("public"));
 
-let auth = require("./auth.js")(app);
+const auth = require("./auth.js")(app);
 
-import { authenticate } from "passport";
-import "./passport";
 const passport = require("passport");
 require("./passport");
 mongoose.connect(process.env.CONNECTION_URI, {
