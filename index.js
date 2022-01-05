@@ -18,29 +18,7 @@ const Directors = Models.Director;
 const app = express();
 const cors = require("cors");
 
-let allowedOrigins = [
-  "http://localhost:4200",
-  "http://localhost:1234",
-  "https://rocky-bayou-72593.herokuapp.com/",
-  "http://localhost:8080",
-  "https://zlaxton.gihub.io.myFlix-Angular-client",
-  "https://zlaxton.github.io",
-];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        //If a specific origin isn’t found on the list
-        let message =
-          "The CORS policy for this application doesn`t allow accsess from origin " +
-          origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+
 
 //Middleware
 app.use(cors());
