@@ -190,32 +190,26 @@ app.post(
 app.post(
   "/users",
   [
-    check("Username", "Username is required!").isLength({
+    // express-validator logic
+    check("Username", "Username of min 5 characters is required.").isLength({
       min: 5,
     }),
-    check(
-      "Username",
-      "Username contains non alphanumerical characters!"
-    ).isAlphanumeric(),
-    check("Password", "Password is required!").not().isEmpty(),
-    check("Email", "Email address is not valid!").isEmail(),
+    check("Username", "Username has to be only alphanumeric.").isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
   ],
   (req, res) => {
     // check the validation object for errors
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({
-        errors: errors.array(),
-      });
+      return res.status(422).json({ errors: errors.array() });
     }
+
     let hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({
-      Username: req.body.Username, //search user by username
-    })
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
       .then((user) => {
         if (user) {
-          //if user is found, send a response that is already exists
-          return res.status(400).send(req.body.Username + " already exists!");
+          return res.status(400).send(req.body.Username + " already exists");
         } else {
           Users.create({
             Username: req.body.Username,
