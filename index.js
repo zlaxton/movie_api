@@ -3,22 +3,19 @@
  * @see <a href="https://movie_api.herokuapp.com/documentation.html">Table of all endpoints and data formats</a>
  */
 
-const express = require("express"),
-  morgan = require("morgan"), // module for logging
-  bodyParser = require("body-parser"), // module to parse the body of an API request (eg: "let newUser = req.body;")
-  const mongoose = require("mongoose"), // business layer logic to link Node and the MongoDB
-  Models = require("./models.js"); // Mongoose models representing the movie_api_DB (MongoDB) collections
-  uuid = require("uuid");
+const express = require("express");
+const morgan = require("morgan"); // module for logging
+const bodyParser = require("body-parser"); // module to parse the body of an API request (eg: "let newUser = req.body;")
+const mongoose = require("mongoose"); // business layer logic to link Node and the MongoDB
+const Models = require("./models.js"); // Mongoose models representing the movie_api_DB (MongoDB) collections
+const uuid = require("uuid");
 const app = express(); // encapsulate Express’s functionality to configure the web server
 
 const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
-const app = express();
 const cors = require("cors");
-
-
 
 //Middleware
 app.use(cors());
@@ -39,6 +36,7 @@ app.use("/documentation", static("public"));
 const auth = require("./auth.js")(app);
 
 const passport = require("passport");
+app.use(passport.initialize());
 require("./passport");
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
