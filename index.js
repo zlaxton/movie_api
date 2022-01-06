@@ -2,7 +2,7 @@
  * @fileOverview In this file the endpoints for the API are defined.
  * @see <a href="https://movie_api.herokuapp.com/documentation.html">Table of all endpoints and data formats</a>
  */
-
+const { check, validationResult } = require("express-validator");
 const express = require("express");
 const morgan = require("morgan"); // module for logging
 const bodyParser = require("body-parser"); // module to parse the body of an API request (eg: "let newUser = req.body;")
