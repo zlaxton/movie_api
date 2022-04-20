@@ -35,7 +35,7 @@
     "passport-local": "^1.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "save": "^2.4.0",
+    "save": "^2.5.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
